@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Link } from 'react-router-dom'
-const UniversityFilter = ({ universities, searchUniversity }) => {
+import Spinner from "./Spinner";
+const UniversityFilter = ({ universities, searchUniversity, isLoading }) => {
   const nameInput = useRef(null);
   const countryInput = useRef(null);
   const domainsInput = useRef(null);
@@ -73,29 +74,35 @@ const UniversityFilter = ({ universities, searchUniversity }) => {
 
         <button onClick={searchQuery} className="bg-cyan-700 text-white h-10 w-28 hover:bg-cyan-900 hover:duration-300 mt-4">Search</button>
       </div>
-
-      <table className="relative m-auto shadow-2xl font-[Poppins] border border-cyan-200 w-4/5 overflow-hidden">
-        <thead className="text-white">
-          <tr>
-            <th className="py-3 bg-cyan-800 text-left px-7">Name</th>
-            <th className="py-3 bg-cyan-800 text-left px-6">Country</th>
-            <th className="py-3 bg-cyan-800 text-left px-6">Web Page</th>
-            <th className="py-3 bg-cyan-800 text-left px-6">Domain</th>
-          </tr>
-        </thead>
-        <tbody className="text-cyan-900 text-center">
-          { universities && 
-            universities.map((university, index) => (
-            <tr key={index} className=" bg-cyan-400 hover:bg-cyan-100 cursur-pointer duration-300">
-              <td className="py-3 px-6 text-left overflow-hidden">{university.name}</td>
-              <td className="py-3 px-6 text-left">{university.country}</td>
-              <td className="py-3 px-6 text-left">{university.web_pages[0]}</td>
-              <td className="py-3 px-6 text-left">{university.domains[0]}</td>
-            </tr>
-            )) 
-          }
-        </tbody>
-      </table>
+      {
+        isLoading ? (
+          <Spinner />
+        ) :
+        (
+          <table className="relative m-auto shadow-2xl font-[Poppins] border border-cyan-200 w-4/5 overflow-hidden">
+            <thead className="text-white">
+              <tr>
+                <th className="py-3 bg-cyan-800 text-left px-7">Name</th>
+                <th className="py-3 bg-cyan-800 text-left px-6">Country</th>
+                <th className="py-3 bg-cyan-800 text-left px-6">Web Page</th>
+                <th className="py-3 bg-cyan-800 text-left px-6">Domain</th>
+              </tr>
+            </thead>
+            <tbody className="text-cyan-900 text-center">
+              { universities &&
+                universities.map((university, index) => (
+                <tr key={index} className=" bg-cyan-400 hover:bg-cyan-100 cursur-pointer duration-300">
+                  <td className="py-3 px-6 text-left overflow-hidden">{university.name}</td>
+                  <td className="py-3 px-6 text-left">{university.country}</td>
+                  <td className="py-3 px-6 text-left">{university.web_pages[0]}</td>
+                  <td className="py-3 px-6 text-left">{university.domains[0]}</td>
+                </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        )
+      }
     </>
   )
 }
